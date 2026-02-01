@@ -14,6 +14,7 @@ Firefox automation using Playwright for VNC with persistent sessions. Designed f
 - ⚡ **Non-Blocking Mode** - Doesn't hang AI/terminal
 - 🔄 **Background Mode** - Run browser as daemon
 - 📝 **Full Logging** - Track all browser actions
+- 🤖 **OpenCode Skill** - AI can discover and use browser automation automatically
 
 ## ⚠️ Security
 
@@ -236,6 +237,33 @@ Session information is saved in `session.json`:
 
 **Problem:** Sessions not persisting  
 **Solution:** Profile is automatically at ~/.mozilla/firefox/ai-automation-profile
+
+## 🤖 OpenCode Integration
+
+This project includes an OpenCode skill that makes browser automation discoverable by AI assistants.
+
+### For Users
+After installation, OpenCode will automatically discover the `browser-automation` skill. AI assistants can load it when they need to:
+- Take screenshots of websites
+- Extract data from web pages
+- Test website accessibility
+- Use your logged-in sessions
+
+### For AI Assistants
+Load the skill when you need browser automation:
+```
+Use the browser-automation skill
+```
+
+The skill is located at:
+- Project: `.opencode/skills/browser-automation/SKILL.md`
+- Global: `~/.opencode/skills/browser-automation/SKILL.md`
+
+### Skill Features
+- 📖 Complete usage instructions
+- 🔧 Code examples for common tasks
+- ⚠️ Important rules (timeout, non-blocking)
+- 🔍 Troubleshooting guide
 
 ## License
 
