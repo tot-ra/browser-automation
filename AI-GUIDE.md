@@ -1,106 +1,105 @@
 # AI Browser Automation Guide
 
-## Для AI Assistant: Как использовать браузер
+## For AI Assistant: How to Use the Browser
 
-### ⚠️ ВАЖНО: Не подвисай!
+### ⚠️ IMPORTANT: Don't Hang!
 
-**Используй быстрый запуск без ожидания:**
+**Use quick launch without waiting:**
 ```bash
-# Этот скрипт запустит браузер и сразу вернет управление
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://example.com &
+# This script will launch the browser and immediately return control
+timeout 10 node quick-launch.js https://example.com &
 ```
 
-**Или запусти в фоне:**
+**Or launch in background:**
 ```bash
-cd /home/gratheon/git/browser-automation && node bg-launcher.js start
+node bg-launcher.js start
 ```
 
-### Быстрый старт
+### Quick Start
 
-1. **Быстро открыть браузер (НЕ ПОДВИСАЕТ):**
+1. **Quickly open browser (NON-BLOCKING):**
 ```bash
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://example.com &
+timeout 10 node quick-launch.js https://example.com &
 ```
 
-2. **Выполнить команду с таймаутом:**
+2. **Execute command with timeout:**
 ```bash
-cd /home/gratheon/git/browser-automation && timeout 15 node commander.js '{"action":"goto","params":{"url":"https://example.com"}}'
+timeout 15 node commander.js '{"action":"goto","params":{"url":"https://example.com"}}'
 ```
 
-3. **Запустить в фоне и проверить статус:**
+3. **Start in background and check status:**
 ```bash
-cd /home/gratheon/git/browser-automation && node bg-launcher.js start
+node bg-launcher.js start
 node bg-launcher.js status
 ```
 
-### Основные сценарии использования
+### Main Usage Scenarios
 
-#### Открыть сайт и сделать скриншот
+#### Open site and take screenshot
 ```bash
-# БЫСТРЫЙ СПОСОБ (не блокирует)
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://example.com &
+# QUICK METHOD (non-blocking)
+timeout 10 node quick-launch.js https://example.com &
 ```
 
 ```javascript
-const BrowserHelper = require('/home/gratheon/git/browser-automation/browser-helper');
+const BrowserHelper = require('./browser-helper');
 
 const browser = new BrowserHelper({ headless: false });
 await browser.launch();
 await browser.goto('https://example.com');
-await browser.screenshot('/home/gratheon/screenshot.png');
-// Браузер останется открытым до вызова browser.close()
+await browser.screenshot('/path/to/screenshot.png');
+// Browser will stay open until browser.close() is called
 ```
 
-#### Заполнить форму
+#### Fill out a form
 ```bash
-cd /home/gratheon/git/browser-automation
 timeout 15 node commander.js '{"action":"goto","params":{"url":"https://example.com/login"}}'
 timeout 10 node commander.js '{"action":"type","params":{"selector":"#username","text":"user@example.com"}}'
 timeout 10 node commander.js '{"action":"type","params":{"selector":"#password","text":"password123"}}'
 timeout 10 node commander.js '{"action":"click","params":{"selector":"button[type=submit]"}}'
 ```
 
-#### Получить текст со страницы
+#### Get page text
 ```bash
-cd /home/gratheon/git/browser-automation && timeout 10 node commander.js '{"action":"getPageText"}'
+timeout 10 node commander.js '{"action":"getPageText"}'
 ```
 
-#### Получить cookies
+#### Get cookies
 ```bash
-cd /home/gratheon/git/browser-automation && timeout 10 node commander.js '{"action":"getCookies"}'
+timeout 10 node commander.js '{"action":"getCookies"}'
 ```
 
-### Доступные действия (actions)
+### Available Actions
 
-| Действие | Параметры | Описание |
-|----------|-----------|----------|
-| `goto` | `{url}` | Перейти на URL |
-| `getTitle` | - | Получить заголовок страницы |
-| `getUrl` | - | Получить текущий URL |
-| `click` | `{selector}` | Кликнуть по элементу |
-| `type` | `{selector, text}` | Ввести текст |
-| `screenshot` | `{filepath?}` | Сделать скриншот |
-| `getText` | `{selector}` | Получить текст элемента |
-| `getPageText` | - | Получить весь текст |
-| `getCookies` | - | Получить cookies |
-| `getLocalStorage` | - | Получить localStorage |
-| `evaluate` | `{script}` | Выполнить JS |
-| `waitForSelector` | `{selector, timeout?}` | Ждать элемент |
-| `newPage` | - | Открыть новую вкладку |
-| `getHistory` | - | Путь к истории |
+| Action | Parameters | Description |
+|--------|------------|-------------|
+| `goto` | `{url}` | Navigate to URL |
+| `getTitle` | - | Get page title |
+| `getUrl` | - | Get current URL |
+| `click` | `{selector}` | Click element |
+| `type` | `{selector, text}` | Enter text |
+| `screenshot` | `{filepath?}` | Take screenshot |
+| `getText` | `{selector}` | Get element text |
+| `getPageText` | - | Get all text |
+| `getCookies` | - | Get cookies |
+| `getLocalStorage` | - | Get localStorage |
+| `evaluate` | `{script}` | Execute JS |
+| `waitForSelector` | `{selector, timeout?}` | Wait for element |
+| `newPage` | - | Open new tab |
+| `getHistory` | - | Get history path |
 
-### Селекторы
+### Selectors
 
-- По ID: `#myId`
-- По классу: `.myClass`
-- По тегу: `button`
-- По атрибуту: `[name="username"]`
-- По тексту: `text=Login`
-- Комбинированные: `button.primary[type="submit"]`
+- By ID: `#myId`
+- By class: `.myClass`
+- By tag: `button`
+- By attribute: `[name="username"]`
+- By text: `text=Login`
+- Combined: `button.primary[type="submit"]`
 
-### Примеры для типичных задач
+### Examples for Common Tasks
 
-#### Поиск в Google
+#### Google Search
 ```javascript
 await browser.goto('https://google.com');
 await browser.type('textarea[name="q"]', 'playwright automation');
@@ -109,14 +108,14 @@ await browser.waitForSelector('#search');
 const results = await browser.getPageText();
 ```
 
-#### Проверка авторизации
+#### Check Authentication
 ```javascript
 await browser.goto('https://github.com');
 const cookies = await browser.getCookies();
 const isLoggedIn = cookies.some(c => c.name === 'user_session');
 ```
 
-#### Извлечение данных
+#### Data Extraction
 ```javascript
 await browser.goto('https://example.com/data');
 const data = await browser.evaluate(() => {
@@ -127,37 +126,37 @@ const data = await browser.evaluate(() => {
 });
 ```
 
-### Сохранение сессий
+### Session Persistence
 
-**Профиль браузера сохраняется автоматически** в:
+**Browser profile is saved automatically** at:
 ```
-/home/gratheon/.mozilla/firefox/ai-automation-profile
+~/.mozilla/firefox/ai-automation-profile
 ```
 
-Все логины, пароли, cookies, история - сохраняются между запусками.
+All logins, passwords, cookies, and history are persisted between runs.
 
-### Полезные советы для AI
+### Useful Tips for AI
 
-1. **Всегда используй headless: false** - пользователь хочет видеть что происходит
-2. **Добавляй slowMo: 100-500** - для наглядности действий
-3. **Делай скриншоты** - помогает отлаживать проблемы
-4. **Используй waitForSelector** - дожидайся загрузки элементов
-5. **Сохраняй сессию** - не закрывай браузер без необходимости
-6. **Логируй действия** - console.log каждого шага
+1. **Always use headless: false** - user wants to see what's happening
+2. **Add slowMo: 100-500** - for action visibility
+3. **Take screenshots** - helps debug issues
+4. **Use waitForSelector** - wait for elements to load
+5. **Preserve session** - don't close browser unnecessarily
+6. **Log actions** - console.log each step
 
-### Отладка
+### Debugging
 
-Если что-то не работает:
-1. Проверь что браузер видим (headless: false)
-2. Сделай скриншот текущего состояния
-3. Получи HTML: `getContent()`
-4. Проверь селектор с помощью evaluate
-5. Увеличь timeout для медленных сайтов
+If something doesn't work:
+1. Check that browser is visible (headless: false)
+2. Take screenshot of current state
+3. Get HTML: `getContent()`
+4. Check selector with evaluate
+5. Increase timeout for slow sites
 
-### Безопасность
+### Security
 
-⚠️ **Важно:**
-- Профиль содержит реальные пароли пользователя
-- Не логируй cookies/пароли в консоль
-- Не коммить session.json
-- Скриншоты могут содержать приватную информацию
+⚠️ **Important:**
+- Profile contains real user passwords
+- Don't log cookies/passwords to console
+- Don't commit session.json
+- Screenshots may contain private information

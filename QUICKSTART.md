@@ -1,145 +1,139 @@
-# 🌐 Browser Automation - Быстрый старт
+# 🌐 Browser Automation - Quick Start
 
-## 📍 Расположение проекта
-`/home/gratheon/git/browser-automation/`
+## 🚀 For AI: How to Launch Browser WITHOUT HANGING
 
-## 🚀 Для AI: Как запускать браузер БЕЗ ПОДВИСАНИЯ
-
-### ✅ ПРАВИЛЬНО - Быстрый запуск
+### ✅ CORRECT - Quick Launch
 ```bash
-# Запустить и сразу получить контроль (НЕ ПОДВИСАЕТ!)
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://google.com &
+# Launch and immediately return control (NON-BLOCKING!)
+timeout 10 node quick-launch.js https://google.com &
 ```
 
-### ✅ ПРАВИЛЬНО - Фоновый режим
+### ✅ CORRECT - Background Mode
 ```bash
-cd /home/gratheon/git/browser-automation
 node bg-launcher.js start
 ```
 
-### ❌ НЕПРАВИЛЬНО - Блокирующий запуск
+### ❌ WRONG - Blocking Launch
 ```bash
-# НЕ ИСПОЛЬЗУЙ! Подвиснет терминал!
+# DON'T USE! Will hang the terminal!
 node commander.js
 node example.js
 ```
 
-## 📋 Доступные команды
+## 📋 Available Commands
 
-### Управление браузером в фоне
+### Background Browser Management
 ```bash
-cd /home/gratheon/git/browser-automation
-
-# Запустить браузер в фоне
+# Start browser in background
 node bg-launcher.js start
 
-# Проверить статус
+# Check status
 node bg-launcher.js status
 
-# Остановить
+# Stop
 node bg-launcher.js stop
 
-# Перезапустить
+# Restart
 node bg-launcher.js restart
 ```
 
-### Быстрый запуск (не блокирует)
+### Quick Launch (non-blocking)
 ```bash
-# Открыть URL
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://example.com &
+# Open URL
+timeout 10 node quick-launch.js https://example.com &
 
-# Просто открыть браузер
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js &
+# Just open browser
+timeout 10 node quick-launch.js &
 ```
 
-### Проверка состояния
+### Status Checks
 ```bash
-# Проверить запущен ли Firefox
+# Check if Firefox is running
 ps aux | grep firefox | grep -v grep
 
-# Проверить VNC
+# Check VNC
 netstat -tlnp | grep 5901
 
-# Убить все процессы Firefox
+# Kill all Firefox processes
 pkill -f firefox
 ```
 
-## 🖥️ VNC информация
+## 🖥️ VNC Information
 
 - **Display:** :1
 - **Port:** 5901
-- **Подключение:** VNC viewer -> localhost:5901
-- **Профиль:** `/home/gratheon/.mozilla/firefox/ai-automation-profile`
+- **Connect:** VNC viewer -> localhost:5901
+- **Profile:** `~/.mozilla/firefox/ai-automation-profile`
 
-## 📝 Логи
+## 📝 Logs
 
-Когда используешь фоновый режим:
+When using background mode:
 ```bash
-# Смотреть логи в реальном времени
+# Watch logs in real-time
 tail -f /tmp/browser-automation.log
 
-# Последние 50 строк
+# Last 50 lines
 tail -n 50 /tmp/browser-automation.log
 ```
 
-## 🎯 Примеры использования для AI
+## 🎯 Usage Examples for AI
 
-### Открыть сайт и оставить браузер работать
+### Open site and leave browser running
 ```bash
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://github.com &
+timeout 10 node quick-launch.js https://github.com &
 ```
 
-### Запустить тест и сообщить пользователю
+### Start and notify user
 ```bash
-cd /home/gratheon/git/browser-automation && node bg-launcher.js start
-echo "✅ Браузер запущен! Подключитесь к VNC на порту 5901"
+node bg-launcher.js start
+echo "✅ Browser started! Connect to VNC on port 5901"
 ```
 
-### Закрыть браузер
+### Close browser
 ```bash
 pkill -f firefox
-# или
-cd /home/gratheon/git/browser-automation && node bg-launcher.js stop
+# or
+node bg-launcher.js stop
 ```
 
-## ⚙️ Конфигурация
+## ⚙️ Configuration
 
-Все браузеры запускаются с:
-- **DISPLAY=:1** (VNC дисплей)
-- **headless=false** (видимый режим)
-- **slowMo=100-500** (замедление для наглядности)
-- **Persistent profile** (сохранение сессий)
+All browsers launch with:
+- **DISPLAY=:1** (VNC display)
+- **headless=false** (visible mode)
+- **slowMo=100-500** (slow down for visibility)
+- **Persistent profile** (session persistence)
 
-## 🔧 Устранение проблем
+## 🔧 Troubleshooting
 
-### Браузер не появляется в VNC
+### Browser doesn't appear in VNC
 ```bash
-# Проверить DISPLAY
-echo $DISPLAY  # должно быть :1
+# Check DISPLAY
+echo $DISPLAY  # should be :1
 
-# Проверить VNC
+# Check VNC
 ps aux | grep vnc
 ```
 
-### Процесс завис
+### Process hung
 ```bash
-# Убить все Firefox процессы
+# Kill all Firefox processes
 pkill -9 -f firefox
 
-# Убить Node процессы браузера
+# Kill Node browser processes
 pkill -9 -f "node.*browser"
 ```
 
-### Нет профиля
+### No profile
 ```bash
-# Создать профиль вручную
-mkdir -p /home/gratheon/.mozilla/firefox/ai-automation-profile
+# Create profile manually
+mkdir -p ~/.mozilla/firefox/ai-automation-profile
 ```
 
-## 💡 Советы для AI
+## 💡 Tips for AI
 
-1. **Всегда используй `timeout` и `&`** для неблокирующего запуска
-2. **Не жди завершения** - браузер должен работать независимо
-3. **Проверяй процессы** после запуска с `ps aux | grep firefox`
-4. **Используй quick-launch.js** для простых задач
-5. **Используй bg-launcher.js** для длительной работы
+1. **Always use `timeout` and `&`** for non-blocking launch
+2. **Don't wait for completion** - browser should run independently
+3. **Check processes** after launch with `ps aux | grep firefox`
+4. **Use quick-launch.js** for simple tasks
+5. **Use bg-launcher.js** for long-running operations

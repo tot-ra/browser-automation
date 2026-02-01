@@ -1,124 +1,123 @@
-# Browser Automation для AI
+# Browser Automation for AI
 
-Автоматизация Firefox с помощью Playwright для работы через VNC с сохранением сессий.
+Firefox automation using Playwright for VNC with persistent sessions.
 
-## ⚠️ Безопасность
+## ⚠️ Security
 
-**ВАЖНО:** Этот проект использует persistent профиль Firefox, который может содержать:
-- 🔐 Сохраненные пароли
-- 🍪 Cookies и сессии
-- 📜 Историю браузера
+**IMPORTANT:** This project uses a persistent Firefox profile which may contain:
+- 🔐 Saved passwords
+- 🍪 Cookies and sessions
+- 📜 Browser history
 
-**Файлы, которые НЕ должны попадать в git:**
-- `session.json` - содержит путь к профилю
-- `*.png`, `*.jpg` - скриншоты могут содержать приватные данные
-- Профиль Firefox (`.mozilla/`) - содержит пароли!
+**Files that should NOT be committed to git:**
+- `session.json` - contains profile paths
+- `*.png`, `*.jpg` - screenshots may contain private data
+- Firefox profile (`.mozilla/`) - contains passwords!
 
-Эти файлы уже добавлены в `.gitignore`. Используйте `session.json.example` как шаблон.
+These files are already added to `.gitignore`. Use `session.json.example` as a template.
 
-## 🖥️ Работа с VNC
+## 🖥️ VNC Integration
 
-**Браузер автоматически запускается на VNC дисплее :1 (порт 5901)**
+**Browser automatically launches on VNC display :1 (port 5901)**
 
-### Подключение через VNC
-1. Подключитесь к VNC серверу на порту **5901**
-2. Запустите любой скрипт браузера
-3. Вы увидите окно Firefox в VNC просмотрщике
+### Connecting via VNC
+1. Connect to VNC server on port **5901**
+2. Run any browser script
+3. You'll see the Firefox window in your VNC viewer
 
-### ⚡ Быстрый запуск (для AI - не подвисает!)
+### ⚡ Quick Launch (for AI - non-blocking!)
 ```bash
-# Открыть браузер и сразу вернуть управление
-timeout 10 node /home/gratheon/git/browser-automation/quick-launch.js https://google.com &
+# Open browser and immediately return control
+timeout 10 node quick-launch.js https://google.com &
 
-# Или запустить в фоновом режиме
-cd /home/gratheon/git/browser-automation && node bg-launcher.js start
+# Or start in background mode
+node bg-launcher.js start
 ```
 
-### Быстрый тест VNC
+### VNC Quick Test
 ```bash
-# Полный визуальный тест с автоматической демонстрацией
-cd /home/gratheon/git/browser-automation
+# Full visual test with automatic demonstration
 DISPLAY=:1 node vnc-test.js
 
-# Или через npm
+# Or via npm
 npm run vnc-test
 ```
 
-### Запуск браузера для VNC
+### Launching Browser for VNC
 ```bash
-# Через npm (DISPLAY уже настроен)
-cd /home/gratheon/git/browser-automation
+# Via npm (DISPLAY already configured)
 npm run browser
 npm run test
 
-# Или напрямую
+# Or directly
 DISPLAY=:1 node example.js
 DISPLAY=:1 node commander.js
 ```
 
-### Проверка VNC
+### VNC Verification
 ```bash
-# Проверить что VNC запущен на порту 5901
+# Check that VNC is running on port 5901
 netstat -tlnp | grep 5901
 
-# Проверить процесс VNC
+# Check VNC process
 ps aux | grep vnc
 
-# Проверить текущий DISPLAY
+# Check current DISPLAY
 echo $DISPLAY
 ```
 
-## Установка
+## Installation
 
 ```bash
-cd /home/gratheon/git/browser-automation
+git clone git@github.com:tot-ra/browser-automation.git
+cd browser-automation
 npm install
 npx playwright install firefox
 ```
 
-## Использование
+## Usage
 
-### 1. Быстрый запуск (рекомендуется для AI)
+### 1. Quick Launch (recommended for AI)
 ```bash
-# Не блокирует терминал
+# Non-blocking terminal
 timeout 10 node quick-launch.js https://example.com &
 ```
 
-### 2. Фоновый режим
+### 2. Background Mode
 ```bash
-# Запустить
+# Start
 node bg-launcher.js start
 
-# Проверить статус
+# Check status
 node bg-launcher.js status
 
-# Остановить
+# Stop
 node bg-launcher.js stop
 ```
 
-### 3. Простой пример (может подвиснуть)
+### 3. Simple Example (may block)
 ```bash
 timeout 30 node example.js
 ```
 
-### 2. Командный интерфейс
+### 4. Command Interface
 ```bash
-# Запустить браузер
-node browser-automation/commander.js
+# Start browser
+node commander.js
 
-# Выполнить команду
-node browser-automation/commander.js '{"action":"goto","params":{"url":"https://google.com"}}'
-node browser-automation/commander.js '{"action":"screenshot"}'
-node browser-automation/commander.js '{"action":"getTitle"}'
+# Execute command
+node commander.js '{"action":"goto","params":{"url":"https://google.com"}}'
+node commander.js '{"action":"screenshot"}'
+node commander.js '{"action":"getTitle"}'
 ```
 
-### 3. Программное использование
+### 5. Programmatic Usage
 ```javascript
-const BrowserHelper = require('./browser-automation/browser-helper');
+const BrowserHelper = require('./browser-helper');
 
 const browser = new BrowserHelper({
-  headless: false, // видимый режим
-  slowMo: 100 // замедление для наглядности
+  headless: false, // visible mode
+  slowMo: 100 // slow down for visibility
 });
 
 await browser.launch();
@@ -127,35 +126,35 @@ const title = await browser.getTitle();
 await browser.screenshot('/path/to/screenshot.png');
 ```
 
-## Доступные команды
+## Available Commands
 
-- `goto` - перейти на URL
-- `getTitle` - получить заголовок страницы
-- `getUrl` - получить текущий URL
-- `click` - кликнуть по элементу
-- `type` - ввести текст
-- `screenshot` - сделать скриншот
-- `getText` - получить текст элемента
-- `getPageText` - получить весь текст страницы
-- `getCookies` - получить cookies
-- `getLocalStorage` - получить localStorage
-- `evaluate` - выполнить JavaScript
-- `waitForSelector` - ждать появления элемента
-- `newPage` - открыть новую вкладку
-- `getHistory` - получить историю браузера
+- `goto` - navigate to URL
+- `getTitle` - get page title
+- `getUrl` - get current URL
+- `click` - click element
+- `type` - enter text
+- `screenshot` - take screenshot
+- `getText` - get element text
+- `getPageText` - get all page text
+- `getCookies` - get cookies
+- `getLocalStorage` - get localStorage
+- `evaluate` - execute JavaScript
+- `waitForSelector` - wait for element
+- `newPage` - open new tab
+- `getHistory` - get browser history
 
-## Профиль Firefox
+## Firefox Profile
 
-Браузер использует отдельный профиль, расположенный в:
+The browser uses a separate profile located at:
 - Linux: `~/.mozilla/firefox/ai-automation-profile`
 - macOS: `~/Library/Application Support/Firefox/Profiles/ai-automation-profile`
 - Windows: `%APPDATA%/Mozilla/Firefox/Profiles/ai-automation-profile`
 
-Все логины, пароли, cookies и история сохраняются между запусками.
+All logins, passwords, cookies, and history are persisted between runs.
 
-## Сессии
+## Sessions
 
-Информация о сессии сохраняется в `browser-automation/session.json`:
+Session information is saved in `session.json`:
 ```json
 {
   "profilePath": "/path/to/profile",
@@ -164,9 +163,34 @@ await browser.screenshot('/path/to/screenshot.png');
 }
 ```
 
-## Безопасность
+## Security Notes
 
-⚠️ **Важно**: Профиль содержит ваши пароли и cookie. Убедитесь, что:
-- Директория `browser-automation/` не попадает в публичные репозитории
-- У вас настроен `.gitignore` для исключения `session.json` и скриншотов
-- Профиль защищен правами доступа на файловой системе
+⚠️ **Important**: The profile contains your passwords and cookies. Make sure:
+- The profile directory doesn't get pushed to public repositories
+- You have `.gitignore` configured to exclude `session.json` and screenshots
+- The profile is protected by file system permissions
+
+## Features
+
+- ✅ Firefox with Playwright
+- ✅ Automatic launch on VNC display :1
+- ✅ Session, cookie, and password persistence
+- ✅ Non-blocking launch mode
+- ✅ Background mode with logging
+- ✅ Full documentation
+- ✅ Multiple execution modes
+
+## Troubleshooting
+
+**Problem:** AI hangs when launching browser  
+**Solution:** Use quick-launch.js with timeout and &
+
+**Problem:** Browser not visible in VNC  
+**Solution:** Check DISPLAY=:1 and VNC on port 5901
+
+**Problem:** Sessions not persisting  
+**Solution:** Profile is automatically at ~/.mozilla/firefox/ai-automation-profile
+
+## License
+
+ISC
