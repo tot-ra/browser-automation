@@ -40,11 +40,26 @@ These files are already added to `.gitignore`. Use `session.json.example` as a t
 
 ### ⚡ Quick Launch (for AI - non-blocking!)
 ```bash
-# Open browser and immediately return control
+# Using CLI tool (recommended)
+browser open https://google.com
+browser status
+browser screenshot /tmp/output.png
+
+# Or using Node.js directly
 timeout 10 node quick-launch.js https://google.com &
 
 # Or start in background mode
 node bg-launcher.js start
+```
+
+### 🛠️ CLI Tool
+After installation, the `browser` command is available:
+```bash
+browser status              # Check what's running
+browser open <url>          # Open URL in browser
+browser screenshot <path>   # Take screenshot
+browser sync [both|to|from] # Sync profiles manually
+browser help                # Show all commands
 ```
 
 ### VNC Quick Test
