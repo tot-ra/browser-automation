@@ -1,0 +1,13 @@
+# Browser automation files
+browser-automation/session.json
+browser-automation/screenshot*.png
+browser-automation/*.jpg
+browser-automation/*.jpeg
+browser-automation/*.gif
+browser-automation/downloads/
+
+# Firefox profile data
+.mozilla/
+
+# Node modules
+node_modules/

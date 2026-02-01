@@ -1,0 +1,28 @@
+{
+  "name": "browser-automation",
+  "version": "1.0.0",
+  "description": "AI Browser Automation with Firefox and Playwright for VNC",
+  "main": "browser-helper.js",
+  "scripts": {
+    "browser": "DISPLAY=:1 node example.js",
+    "commander": "DISPLAY=:1 node commander.js",
+    "test": "DISPLAY=:1 node test.js",
+    "vnc-test": "DISPLAY=:1 node vnc-test.js",
+    "start:bg": "DISPLAY=:1 nohup node commander.js > /tmp/browser-automation.log 2>&1 &",
+    "kill": "pkill -f 'node.*commander.js' || true"
+  },
+  "keywords": [
+    "browser",
+    "automation",
+    "playwright",
+    "firefox",
+    "vnc",
+    "ai"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@playwright/test": "^1.58.1",
+    "playwright": "^1.58.1"
+  }
+}
