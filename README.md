@@ -94,8 +94,26 @@ ps aux | grep vnc
 echo $DISPLAY
 ```
 
-## Installation
+## 📦 Installation
 
+### Quick Install (Recommended)
+```bash
+git clone git@github.com:tot-ra/browser-automation.git
+cd browser-automation
+./install.sh
+source ~/.bashrc
+```
+
+The installation script will:
+- ✅ Install Node.js dependencies
+- ✅ Install Playwright Firefox
+- ✅ Set up OpenCode integration
+- ✅ Configure browser CLI tool
+- ✅ Create automation profile
+- ✅ Start profile sync watcher
+- ✅ Verify setup
+
+### Manual Installation
 ```bash
 git clone git@github.com:tot-ra/browser-automation.git
 cd browser-automation
