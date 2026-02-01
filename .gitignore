@@ -1,13 +1,28 @@
-# Browser automation files
-browser-automation/session.json
-browser-automation/screenshot*.png
-browser-automation/*.jpg
-browser-automation/*.jpeg
-browser-automation/*.gif
-browser-automation/downloads/
+# Session and runtime files
+session.json
+screenshot*.png
+*.jpg
+*.jpeg
+*.gif
+downloads/
+*.log
 
-# Firefox profile data
+# Temporary files
+/tmp/
+*.tmp
+*.pid
+
+# Firefox profile data (contains passwords!)
 .mozilla/
+*-profile/
 
 # Node modules
 node_modules/
+
+# Environment and secrets
+.env
+.env.local
+*.pem
+*.key
+credentials.json
+logins.json
