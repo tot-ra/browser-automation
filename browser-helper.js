@@ -55,6 +55,11 @@ class BrowserHelper {
       process.env.DISPLAY = ':1';
     }
     
+    // Auto-sync profiles before launch
+    if (this.options.autoSync !== false) {
+      await this.syncProfiles('to-automation');
+    }
+    
     console.log('Launching Firefox...');
     console.log('Profile path:', this.options.profilePath);
     console.log('Headless mode:', this.options.headless);
@@ -63,7 +68,7 @@ class BrowserHelper {
     this.browser = await firefox.launchPersistentContext(this.options.profilePath, {
       headless: this.options.headless,
       slowMo: this.options.slowMo,
-      viewport: { width: 1280, height: 720 },
+      viewport: { width: 1920, height: 1080 }, // Full HD size
       acceptDownloads: true,
       // Firefox specific options
       firefoxUserPrefs: {
@@ -80,6 +85,13 @@ class BrowserHelper {
     // Get the first page or create new one
     const pages = this.browser.pages();
     this.page = pages.length > 0 ? pages[0] : await this.browser.newPage();
+
+    // Maximize window using viewport size detection
+    try {
+      await this.page.setViewportSize({ width: 1920, height: 1080 });
+    } catch (e) {
+      // Viewport size might not work in persistent context, that's ok
+    }
 
     console.log('Browser launched successfully!');
     return this;
@@ -223,10 +235,30 @@ class BrowserHelper {
   }
 
   /**
+   * Sync profiles using the sync script
+   */
+  async syncProfiles(direction = 'both') {
+    const { execSync } = require('child_process');
+    const scriptPath = path.join(__dirname, 'sync-profiles.sh');
+    
+    try {
+      console.log(`🔄 Syncing profiles (${direction})...`);
+      execSync(`bash "${scriptPath}" ${direction}`, { stdio: 'inherit' });
+    } catch (error) {
+      console.warn('⚠️  Profile sync failed:', error.message);
+    }
+  }
+
+  /**
    * Close browser
    */
   async close() {
     if (this.browser) {
+      // Auto-sync back to real profile before closing
+      if (this.options.autoSync !== false) {
+        await this.syncProfiles('from-automation');
+      }
+      
       await this.browser.close();
       console.log('Browser closed');
     }
