@@ -1,6 +1,19 @@
 # Browser Automation for AI
 
-Firefox automation using Playwright for VNC with persistent sessions.
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D14-brightgreen)](https://nodejs.org/)
+[![Playwright](https://img.shields.io/badge/playwright-1.58-orange)](https://playwright.dev/)
+
+Firefox automation using Playwright for VNC with persistent sessions. Designed for AI assistants to control browsers without blocking.
+
+## Features
+
+- 🦊 **Firefox with Playwright** - Modern browser automation
+- 🖥️ **VNC Integration** - Visual browser control on display :1
+- 💾 **Session Persistence** - Saves logins, cookies, and history
+- ⚡ **Non-Blocking Mode** - Doesn't hang AI/terminal
+- 🔄 **Background Mode** - Run browser as daemon
+- 📝 **Full Logging** - Track all browser actions
 
 ## ⚠️ Security
 
